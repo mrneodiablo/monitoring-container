@@ -1,0 +1,66 @@
+global:
+  scrape_interval:     30s # Set the scrape interval to every 30 seconds. Default is every 1 minute.
+  evaluation_interval: 30s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  scrape_timeout: 10s
+
+
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager:9093
+
+rule_files:
+  - "rules/*"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'localhost'
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'host_discovery'
+    consul_sd_configs:
+    - server: 'consul:8500'
+      token: 'X4SYOinf2pTAcAHRhpj7dA=='
+      datacenter: 'monitoring'
+      tag: 'host'
+      refresh_interval: 30s
+
+
+  - job_name: 'docker_discovery'
+    consul_sd_configs:
+    - server: 'consul:8500'
+      token: 'X4SYOinf2pTAcAHRhpj7dA=='
+      datacenter: 'monitoring'
+      tag: 'docker'
+      refresh_interval: 30s
+
+  - job_name: 'service_discovery'
+    metrics_path: '/metrics'
+    consul_sd_configs:
+    - server: 'consul:8500'
+      token: 'X4SYOinf2pTAcAHRhpj7dA=='
+      datacenter: 'monitoring'
+      tag: 'service'
+      refresh_interval: 30s
+
+  - job_name: 'pushgateway_discovery'
+    consul_sd_configs:
+    - server: 'consul:8500'
+      token: 'X4SYOinf2pTAcAHRhpj7dA=='
+      datacenter: 'monitoring'
+      tag: 'pushgateway'
+      refresh_interval: 30s
+
+  - job_name: 'container_discovery'
+    consul_sd_configs:
+    - server: 'consul:8500'
+      token: 'X4SYOinf2pTAcAHRhpj7dA=='
+      datacenter: 'monitoring'
+      tag: 'container'
+      refresh_interval: 30s

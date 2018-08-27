@@ -1,0 +1,1 @@
+{"id": "service_prometheus_client","name": "services","address": "client-intergration","port": 5000,"tags": ["service"],"check": {"name": "Service on port 5000","tcp": "client-intergration:5000","interval": "30s","timeout": "10s"}}

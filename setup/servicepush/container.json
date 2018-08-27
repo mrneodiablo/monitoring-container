@@ -1,0 +1,1 @@
+{"id": "container_cadvisor","name": "container","address": "cadvisor","port": 1337,"tags": ["container"],"check": {"name": "Host TCP on port 1337","tcp": "cadvisor:1337","interval": "30s","timeout": "10s"}}

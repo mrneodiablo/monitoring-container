@@ -1,0 +1,15 @@
+groups:
+- name: alertmanager
+  rules:
+    - alert: InstanceDown
+      expr: up == 0
+      for: 5m
+      labels:
+        severity: page
+      annotations:
+        summary: "Instance {{ $labels.instance }} down"
+        description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+
+
+    - record: job_service:rpc_durations_seconds_count:avg_rate5m
+      expr: avg(rate(rpc_durations_seconds_count[5m])) by (job, service)

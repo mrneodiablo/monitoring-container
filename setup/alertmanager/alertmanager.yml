@@ -1,0 +1,44 @@
+global:
+  resolve_timeout: 5m
+
+#route default
+route:
+  group_by: ['alertmanager']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: default
+
+  #route-child
+  routes:
+  - match:
+      severity: warning
+      receiver: default
+
+  - match:
+      severity: critical
+      receiver: default
+
+  - match_re:
+      service: ^(foo1|foo2|baz)$
+      receiver: web.hook
+
+
+receivers:
+
+  slack_configs:
+  - send_resolved: true
+    username: 'monitor'
+    channel: '#alert'
+    api_url: 'https://hooks.slack.com/services/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'
+
+    #    - name: 'web.hook'
+    #webhook_configs:
+    #- url: 'http://192.168.243.130:5001/'
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']

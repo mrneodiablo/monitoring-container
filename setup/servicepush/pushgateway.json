@@ -1,0 +1,1 @@
+{"id": "pushgateway","name": "pushgateway","address": "pushgateway","port": 9091,"tags": ["pushgateway"],"check": {"name": "Host PUSHGATEWAY on port 9091","tcp": "pushgateway:9091","interval": "30s","timeout": "10s"}}

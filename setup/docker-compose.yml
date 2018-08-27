@@ -1,0 +1,66 @@
+version: '2.1'
+services:
+
+  consul:
+    image: consul:1.2.2
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+      - "8600:8600/udp"
+    command: "agent -server -bootstrap -ui -client 0.0.0.0 -datacenter=monitoring -encrypt=X4SYOinf2pTAcAHRhpj7dA=="
+
+  
+  alertmanager:
+    image: prom/alertmanager:v0.15.2
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/config.yml
+    ports:
+      - '9093:9093'  
+
+  alert-dashboard:
+    image: cloudflare/unsee:v0.9.2
+    ports:
+      - '8080:8080'
+    environment:
+      - ALERTMANAGER_URI=http://alertmanager:9093
+
+  grafana:
+    image: grafana/grafana:5.2.3
+    ports:
+      - '3000:3000'
+
+  prometheus:
+    build: prometheus/
+    image: prometheus_dongvt:v1
+    container_name: prometheus
+    ports:
+      - '9090:9090'
+
+  # optional
+  pushgateway:
+    image: prom/pushgateway:v0.5.2
+    ports:
+      - '9091:9091'
+
+  nodeexporter:
+    image: prom/node-exporter:latest
+    ports:
+      - '9100:9100'
+
+  client-intergration:
+    image: philwinder/prometheus-python:0.1.4
+    ports:
+      - '5000:5000'
+
+  cadvisor:
+    image: google/cadvisor:v0.28.5
+    ports:
+      - '1337:8080'
+
+  servicepush:
+    build: servicepush/
+    image: servicepush_dongvt:v1
+    container_name: servicepush
+
+
