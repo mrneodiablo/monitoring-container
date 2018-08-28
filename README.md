@@ -2,7 +2,7 @@
 
 ## Install Prometheus with docker-compose
 
-This document for install Prometheus to monitoring  container:
+This document for install Prometheus to monitor  container:
 
 System diagram:
 
@@ -12,8 +12,9 @@ Components:
 - Prometheus Server 
 - Scrape targets   (Consul)
 - Web UI (Graphana)
-- Alert Managerment (Email, webhook, Slack income-webhook)
-- Exporter monitor Docker (Cadvisor)
+- Alert Managerment (alertmanager, alert-dashboard: alert over --> Email, webhook, Slack income-webhook)
+- Exporter Docker (Cadvisor)
+- Exporter Node
 - Pushgateway (exception case) 
 
 
