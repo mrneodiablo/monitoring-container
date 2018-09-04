@@ -211,6 +211,10 @@ All container have started
 
 3. Access `grafana` 
 
+Create `Data sources` = `Prometheus`
+
+![Data source](images/data_sources.png "Data Source")
+
 Import file configs dashboard in `setup/grafana/` to `Grafana`
 
 

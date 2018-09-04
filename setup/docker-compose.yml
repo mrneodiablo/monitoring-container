@@ -4,10 +4,7 @@ services:
   consul:
     image: consul:1.2.2
     ports:
-      - "8400:8400"
       - "8500:8500"
-      - "8600:8600"
-      - "8600:8600/udp"
     command: "agent -server -bootstrap -ui -client 0.0.0.0 -datacenter=monitoring -encrypt=X4SYOinf2pTAcAHRhpj7dA=="
 
   
@@ -40,23 +37,24 @@ services:
   # optional
   pushgateway:
     image: prom/pushgateway:v0.5.2
-    ports:
-      - '9091:9091'
+
 
   nodeexporter:
     image: prom/node-exporter:latest
-    ports:
-      - '9100:9100'
+
 
   client-intergration:
     image: philwinder/prometheus-python:0.1.4
-    ports:
-      - '5000:5000'
+
 
   cadvisor:
     image: google/cadvisor:v0.28.5
-    ports:
-      - '1337:8080'
+    privileged: true
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
 
   servicepush:
     build: servicepush/
